@@ -25,10 +25,12 @@ function route() {
   const query = qs.get('query') ?? undefined;
   const id = qs.get('id');
   const ekkitil = qs.get('ekkitil');
-  const parentElement= ('');
+  const parentElementId= qs.get('parentElement');
+  const parentElement = document.getElementById(parentElementId)as HTMLElement;
 
 
-  if (id){
+
+  if (id && parentElement){
     renderDetails(parentElement, id);
   }
   else {

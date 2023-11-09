@@ -84,8 +84,12 @@ function searchAndRender(parentElement, searchForm, query) {
  */
 function renderFrontpage(parentElement, searchHandler) {
   var query = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
-  var heading = (0, _elements.el)('h1', {}, 'Geimskotaleitin 🚀');
+  var heading = (0, _elements.el)('h1', {
+    "class": 'heading',
+    'data-foo': 'bar'
+  }, 'Geimskotaleitin 🚀');
   var searchForm = renderSearchForm(searchHandler, query);
+  console.log(heading, searchForm);
   var container = (0, _elements.el)('main', {}, heading, searchForm);
   parentElement.appendChild(container);
 

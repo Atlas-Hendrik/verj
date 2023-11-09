@@ -59,8 +59,13 @@ export function renderFrontpage(
   searchHandler,
   query = undefined,
 ) {
-  const heading = el('h1', {}, 'Geimskotaleitin 🚀');
+  const heading = el('h1', 
+  { class: 'heading', 'data-foo': 'bar'}, 
+  'Geimskotaleitin 🚀'
+  );
+
   const searchForm = renderSearchForm(searchHandler, query);
+  console.log(heading, searchForm);
   const container = el('main', {}, heading, searchForm);
   parentElement.appendChild(container);
 
