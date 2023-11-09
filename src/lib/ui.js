@@ -8,7 +8,7 @@ import { el } from './elements.js';
  * @returns {HTMLElement} Leitarform.
  */
 export function renderSearchForm(searchHandler, query = undefined) {
-  /* TODO útfæra */
+  return document.createElement('div');
 }
 
 /**

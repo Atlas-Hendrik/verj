@@ -31,6 +31,7 @@ function el(name) {
     if (typeof child === 'string' || typeof child === 'number') {
       e.appendChild(document.createTextNode(child.toString()));
     } else {
+      console.log(child);
       e.appendChild(child);
     }
   }

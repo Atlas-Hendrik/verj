@@ -15,6 +15,7 @@ export function el(name, attributes = {}, ...children) {
     if (typeof child === 'string' || typeof child === 'number') {
       e.appendChild(document.createTextNode(child.toString()));
     } else {
+      console.log(child)
       e.appendChild(child);
     }
   }
