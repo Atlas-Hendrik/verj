@@ -7,8 +7,23 @@ import { renderDetails, renderFrontpage, searchAndRender } from './lib/ui.js';
  * @returns {Promise<void>}
  */
 async function onSearch(e) {
-  /* TODO útfæra */
+  try {
+      const result = await fetchDataAsync(e);
+
+      console.log(result);
+  } catch (error) {
+      console.error('An error occurred:', error);
+  }
 }
+
+function fetchDataAsync(query) {
+  return new Promise((resolve, reject) => {
+      setTimeout(() => {
+          resolve(`Data for query '${query}'`);
+      }, 1000); 
+  });
+}
+
 
 /**
  * Athugar hvaða síðu við erum á út frá query-string og birtir.
@@ -26,9 +41,7 @@ function route() {
   const id = qs.get('id');
   const ekkitil = qs.get('ekkitil');
   const parentElementId= qs.get('parentElement');
-  const parentElement = document.getElementById(parentElementId)as HTMLElement;
-
-
+  const parentElement = document.body;
 
   if (id && parentElement){
     renderDetails(parentElement, id);
@@ -39,9 +52,23 @@ function route() {
 }
 
 // Bregst við því þegar við notum vafra til að fara til baka eða áfram.
-window.onpopstate = () => {
-  /* TODO bregðast við */
+window.onpopstate = function(event) {
+  console.log('Popstate event triggered!');
+  console.log('State data:', event.state);
 };
+
+const stateData = { message: 'Hello from onpopstate example!' };
+const pageTitle = 'onpopstate Example';
+const url = '/example';
+
+history.pushState(stateData, pageTitle, url);
+
+setTimeout(function() {
+  history.back();
+}, 2000);
+
 
 // Athugum í byrjun hvað eigi að birta.
 route();
+
+

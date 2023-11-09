@@ -29,18 +29,48 @@ export async function sleep(ms) {
 /**
  * Leita í geimskota API eftir leitarstreng.
  * @param {string} query Leitarstrengur.
- * @returns {Promise<Launch[] | null>} Fylki af geimskotum eða `null` ef villa
+ * @returns {Promise<Launch[] | void>} Fylki af geimskotum eða `null` ef villa
  *  kom upp.
  */
-export async function searchLaunches(query) {
-  /* TODO útfæra */
+// Assuming you have some API module to fetch launches, replace 'apiModule' with the actual module or API you are using.
+
+async function searchLaunches(query) {
+  try {
+      const launches = await apiModule.getLaunches(query);
+      const processedLaunches = processLaunches(launches);
+
+      return processedLaunches;
+  } catch (error) {
+      console.error('Error fetching launches:', error);
+      throw new Error('Failed to fetch launches');
+  }
 }
+
+function processLaunches(launches) {
+  return launches.map(launch => ({
+      name: launch.name,
+      date: new Date(launch.date),
+  }));
+}
+
 
 /**
  * Skilar stöku geimskoti eftir auðkenni eða `null` ef ekkert fannst.
  * @param {string} id Auðkenni geimskots.
- * @returns {Promise<LaunchDetail | null>} Geimskot.
+ * @returns {Promise<LaunchDetail | void>} Geimskot.
  */
 export async function getLaunch(id) {
-  /* TODO útfæra */
+  
+  try {
+    const response = await fetch(`https://lldev.thespacedevs.com/2.2.0/${id}`);  
+    if (!response.ok) {
+      throw new Error(`Tókst ekki að opna ${id}`);
+    }
+    const launchData = await response.json();
+    return launchData;
+  } 
+  catch (error) {
+    console.error(error.message);
+  }
+  
 }

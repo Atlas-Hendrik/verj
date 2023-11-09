@@ -17,7 +17,15 @@ export function renderSearchForm(searchHandler, query = undefined) {
  * @param {Element | undefined} searchForm Leitarform sem á að gera óvirkt.
  */
 function setLoading(parentElement, searchForm = undefined) {
-  /* TODO útfæra */
+  const loadingElement = document.createElement('div');
+  loadingElement.className = 'loading';
+  loadingElement.textContent = 'Loading...';
+
+  parentElement.appendChild(loadingElement);
+
+  if (searchForm) {
+      searchForm.setAttribute('disabled', 'true');
+  }
 }
 
 /**
@@ -25,9 +33,15 @@ function setLoading(parentElement, searchForm = undefined) {
  * @param {HTMLElement} parentElement Element sem inniheldur skilaboð.
  * @param {Element | undefined} searchForm Leitarform sem á að gera virkt.
  */
+
 function setNotLoading(parentElement, searchForm = undefined) {
-  /* TODO útfæra */
+  const loadingClass = 'loading';
+  parentElement.classList.remove(loadingClass);
+  if (searchForm) {
+      searchForm.classList.remove(loadingClass);
+  }
 }
+
 
 /**
  * Birta niðurstöður úr leit.
@@ -35,8 +49,22 @@ function setNotLoading(parentElement, searchForm = undefined) {
  * @param {string} query Leitarstrengur.
  */
 function createSearchResults(results, query) {
-  /* TODO útfæra */
+  if (results.length === 0) {
+      return "No results found for '" + query + "'.";
+  }
+  let output = "Search results for '" + query + "':\n";
+
+  for (let i = 0; i < results.length; i++) {
+      output += (i + 1) + ". " + results[i] + "\n";
+  }
+
+  return output;
 }
+let searchResults = ["Result 1", "Result 2", "Result 3"];
+let searchQuery = "example";
+let outputString = createSearchResults(searchResults, searchQuery);
+console.log(outputString);
+
 
 /**
  *
@@ -44,9 +72,34 @@ function createSearchResults(results, query) {
  * @param {Element} searchForm Form sem á að gera óvirkt.
  * @param {string} query Leitarstrengur.
  */
+
 export async function searchAndRender(parentElement, searchForm, query) {
-  /* TODO útfæra */
+  try {
+    const apiUrl = `https://api.example.com/search?q=${query}`;
+    
+    const response = await fetch(apiUrl);
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    const searchData = await response.json();
+    renderSearchResults(parentElement, searchData);
+  } catch (error) {
+    console.error('Error during search and render:', error);
+  }
 }
+
+function renderSearchResults(parentElement, searchData) {
+  parentElement.innerHTML = '';
+
+  searchData.forEach(result => {
+    const resultElement = document.createElement('div');
+    resultElement.textContent = result.title;
+    parentElement.appendChild(resultElement);
+  });
+}
+
 
 /**
  * Sýna forsíðu, hugsanlega með leitarniðurstöðum.
